@@ -1,0 +1,8 @@
+{
+  "name": " Subway Surf 3D",
+  "description": "An immersive 3D Subway Surfers arcade game featuring custom physics, character skins, shop upgrades, global leaderboards, and responsive mobile swipe controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

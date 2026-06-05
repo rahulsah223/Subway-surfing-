@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default safety net (Lock down all other paths)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Globally accessible helper primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Users collection rules
+    match /users/{userId} {
+      allow get: if isSignedIn();
+      allow list: if false; // Users can only fetch individual profiles, no scraping allowed
+      
+      allow create, update: if isOwner(userId);
+      allow delete: if false; // Profiles are permanent once registered
+    }
+
+    // Leaderboard collection rules
+    match /leaderboard/{entryId} {
+      // Allow any signed-in user to fetch details or lists (needed for high score visualization)
+      allow read: if isSignedIn();
+      
+      // Let any user write their own leaderboard entry keyed by their userId
+      allow create, update: if isOwner(entryId);
+      allow delete: if false; // Leaderboard history must be retained
+    }
+
+    // Feedback collection rules
+    match /feedback/{feedbackId} {
+      // Let signed-in users post active feedback, but never list or modify existing submissions
+      allow create: if isSignedIn();
+      allow read, update, delete: if false;
+    }
+  }
+}

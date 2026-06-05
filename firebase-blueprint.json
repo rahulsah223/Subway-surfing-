@@ -1,0 +1,81 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with game progress and virtual shop stats",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "highScore": { "type": "integer" },
+        "coins": { "type": "integer" },
+        "currentSkin": { "type": "string" },
+        "currentEnvironment": { "type": "string" },
+        "currentHeadwear": { "type": "string" },
+        "currentBoardPattern": { "type": "string" },
+        "dailyChallengeProgress": { "type": "integer" },
+        "dailyChallengeDate": { "type": "string" },
+        "weeklyChallengeProgress": { "type": "integer" },
+        "weeklyChallengeDate": { "type": "string" },
+        "unlockedSkins": { "type": "array" },
+        "unlockedEnvironments": { "type": "array" },
+        "unlockedHeadwear": { "type": "array" },
+        "unlockedBoardPatterns": { "type": "array" },
+        "friends": { "type": "array" },
+        "claimedDailyIds": { "type": "array" },
+        "claimedWeeklyIds": { "type": "array" },
+        "dailyPowerupsCount": { "type": "integer" },
+        "weeklyScoreCumulative": { "type": "integer" },
+        "weeklyRunsPlayed": { "type": "integer" },
+        "claimedAchievementIds": { "type": "array" },
+        "totalCoinsCollected": { "type": "integer" },
+        "totalPowerupsCollected": { "type": "integer" },
+        "totalRunsPlayed": { "type": "integer" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "highScore", "coins", "currentSkin", "currentEnvironment", "unlockedSkins", "unlockedEnvironments", "updatedAt"]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Global high score record for the active leaders panel",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "score": { "type": "integer" },
+        "activeSkin": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "score", "activeSkin", "timestamp"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User game feedback submissions with rating and comments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "rating": { "type": "integer" },
+        "category": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "username", "rating", "category", "message", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Primary user profiles and unlockable inventories"
+    },
+    "/leaderboard/{entryId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Global competitive scores list sorted by score descending"
+    },
+    "/feedback/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "Player-submitted ratings and reports for continuous updates"
+    }
+  }
+}
